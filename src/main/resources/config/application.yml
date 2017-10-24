@@ -1,0 +1,106 @@
+server:
+  port: ${mybook-app.server.port}
+  tomcat:
+    accesslog:
+      dir: /logs/mybook-app.log
+      enabled: true
+      pattern: "\"%{c,tranceId}\" \"%{i,versionCode}\" \"%{i,deviceId}\" %h %l %u %t \"%r\" %s %b \"%{i,Referer}\" \"%{i,User-Agent}\""
+  compression:
+    enabled: true
+    min-response-size: 1
+
+
+spring:
+
+  datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: ${mybook-app.mysql.url}
+      username: ${mybook-app.mysql.username}
+      password: ${mybook-app.mysql.password}
+  aop:
+    proxy-target-class: true
+    auto: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm
+    serialization: true
+    time-zone: GMT+0800
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      enabled: true
+    encoding:
+      charset: UTF-8
+      enabled: true
+
+
+
+
+mybatis:
+  mapperLocations: classpath*:mapping/*Mapper.xml
+  typeAliasesPackage: com/mybook/app/model
+  #checkConfigLocation: true
+  #configLocation: classpath:mybatis-config.xml
+  #mybatis.config：mybatis-config.xml配置文件的路径
+  #mybatis.typeHandlersPackage：扫描typeHandlers的包
+  #mybatis.checkConfigLocation：检查配置文件是否存在
+  #mybatis.executorType：设置执行模式（SIMPLE, REUSE, BATCH），默认为SIMPLE
+
+logging:
+  level:
+    root: ${mybook-app.level}
+    org.springframework.amqp.rabbit: ${mybook-app.level}
+    org.springframework.cloud.netflix: ${mybook-app.level}
+    java.sql: ${mybook-app.level}
+    java.sql.Connection: ${mybook-app.level}
+    com.mysql: ${mybook-app.level}
+
+
+endpoints:
+  enabled: true
+  sensitive: false
+  actuator:
+    enabled: true
+    sensitive: false
+  beans:
+    id: endpointsBean
+    sensitive: false
+  shutdown:
+    enabled: true
+
+    sensitive: false
+pagehelper:
+  #offsetAsPageNum: true
+  #rowBoundsWithCount: true
+  helperDialect: mysql
+  #dialect: com.github.pagehelper.dialect.helper.MySqlDialect
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+mybook-app:
+  javaMedoly:
+    classPattern: com.mybook
+  server:
+    port: 8082
+  mysql:
+     url: jdbc:mysql://120.27.110.72:3306/mybook?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=CTT
+     username: root
+     password: JuBa123456
+
+  notcheckLoginUrl: /login/login,/inCome.*
+  level: info
+
+  # 购销合同
+  buysaleContract: buysale.pdf
+
+web:
+  expireTime: 1800000 #30分钟
+  defalutPass: 9ed685f18acbc96ecc280be14afdeee7 # 运营需求二 ： 1qaz@zdc96683
+  errorCount: 20
+  express100Url: http://www.kuaidi100.com   #快递100 http://api.kuaidi100.com
+  express100key: d2846ce59d8931a7          #快递100注册的Key 29833628d495d7a5
+  amapLbsApiUrl: http://restapi.amap.com       #根据地址获取高德地图的经纬度
+  ThridVerifyUrl: http://127.0.0.1:9005
+  #获取广群更新新手标的时间-四个小时
+  updateDate: 14400000
